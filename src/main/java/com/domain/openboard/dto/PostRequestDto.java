@@ -13,12 +13,14 @@ public class PostRequestDto {
     private String title;
     private String content;
     private String name;
+    private String password;
 
     public Post toEntity() { // 생성자를 통해 객체 생성
         return Post.builder()
                 .title(title)
                 .content(content)
                 .name(name)
+                .password(password)
                 .build();
     }
 }

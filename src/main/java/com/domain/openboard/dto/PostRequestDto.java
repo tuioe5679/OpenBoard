@@ -15,12 +15,12 @@ public class PostRequestDto {
     private String name;
     private String password;
 
-    public Post toEntity() { // 생성자를 통해 객체 생성
+    public Post toEntity(String hashedPassword) { // 생성자를 통해 객체 생성
         return Post.builder()
                 .title(title)
                 .content(content)
                 .name(name)
-                .password(password)
+                .password(hashedPassword)
                 .build();
     }
 }

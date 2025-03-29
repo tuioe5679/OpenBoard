@@ -5,6 +5,7 @@ import com.domain.openboard.dto.PostRequestDto;
 import com.domain.openboard.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
@@ -15,10 +16,12 @@ import java.util.List;
 public class PostService {
 
     private final PostRepository postRepository;
+    private final PasswordEncoder passwordEncoder;
 
     // 게시글 작성
     public Post save(PostRequestDto dto){
-        return postRepository.save(dto.toEntity());
+        String hashedPassword = passwordEncoder.encode(dto.getPassword());
+        return postRepository.save(dto.toEntity(hashedPassword));
     }
 
     // 게시글 전체 조회

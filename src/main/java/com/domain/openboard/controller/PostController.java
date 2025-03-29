@@ -3,6 +3,7 @@ package com.domain.openboard.controller;
 import com.domain.openboard.domain.Post;
 import com.domain.openboard.dto.PostListResponseDto;
 import com.domain.openboard.dto.PostRequestDto;
+import com.domain.openboard.dto.PostResponseDto;
 import com.domain.openboard.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -34,5 +35,12 @@ public class PostController {
                 .toList();                              // 변환된 요소들을 새로운 리스트(List<PostListResponseDto>)로 수집
                                                         // List<Post> -> Stream -> PostListResponseDto -> List<PostListResponseDto>
         return ResponseEntity.ok().body(postListDto);
+    }
+
+    // 게시글 단건 조회 API
+    @GetMapping("/posts/{id}")
+    public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long id){ // URL에서 값을 가져옴
+        Post post = postService.findById(id);
+        return ResponseEntity.ok().body(new PostResponseDto(post));
     }
 }

@@ -1,7 +1,9 @@
 package com.domain.openboard.service;
 
 import com.domain.openboard.domain.Post;
+import com.domain.openboard.dto.PostPasswordDto;
 import com.domain.openboard.dto.PostRequestDto;
+import com.domain.openboard.dto.PostUpdateRequestDto;
 import com.domain.openboard.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -44,5 +46,17 @@ public class PostService {
             throw new RuntimeException("비밀번호가 일치하지 않습니다");
         }
         postRepository.delete(post);
+    }
+
+    // 게시글 수정
+    public Post update(Long id, PostUpdateRequestDto dto, String inputPassword){
+        Post post = postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found" + id));
+
+        if(!passwordEncoder.matches(inputPassword,post.getPassword())){
+            throw new RuntimeException("비밀번호가 일치하지 않습니다");
+        }
+        post.update(dto.getTitle(),dto.getContent());
+        return post;
     }
 }

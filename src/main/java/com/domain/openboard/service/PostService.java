@@ -3,11 +3,13 @@ package com.domain.openboard.service;
 import com.domain.openboard.domain.Post;
 import com.domain.openboard.dto.PostRequestDto;
 import com.domain.openboard.repository.PostRepository;
+import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
 
 @Service
 @RequiredArgsConstructor // final이 붙거나 @NoNull이 붙은 필드의 생성자 추가
+@Transactional // 클래스 전체 트랜잭션 적용
 public class PostService {
 
     private final PostRepository postRepository;

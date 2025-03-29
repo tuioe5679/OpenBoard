@@ -25,4 +25,10 @@ public class PostService {
     public List<Post> findAll() {
         return postRepository.findAll();
     }
+
+    // 게시글 단건 조회
+    public Post findById(Long id) {
+        return postRepository.findById(id)
+                .orElseThrow(() -> new RuntimeException("Post not found" + id)); // 엔티티를 조회하고 없으면 예외 발생
+    }
 }

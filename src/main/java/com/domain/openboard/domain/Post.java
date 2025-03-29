@@ -44,11 +44,11 @@ public class Post {
 
     // 빌더 패턴 적용
     @Builder
-    public Post(String title, String content, String name, int likeCount, LocalDateTime createAt, LocalDateTime updateAt) {
+    public Post(String title, String content, String name, LocalDateTime createAt, LocalDateTime updateAt) {
         this.title = title;
         this.content = content;
         this.name = name;
-        this.likeCount = likeCount;
+        this.likeCount = 0; // 기본 좋아요 개수는 0개
         this.create_at = createAt;
         this.update_at = updateAt;
     }

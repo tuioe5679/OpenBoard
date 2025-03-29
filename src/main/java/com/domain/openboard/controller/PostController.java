@@ -2,6 +2,7 @@ package com.domain.openboard.controller;
 
 import com.domain.openboard.domain.Post;
 import com.domain.openboard.dto.PostListResponseDto;
+import com.domain.openboard.dto.PostPasswordDto;
 import com.domain.openboard.dto.PostRequestDto;
 import com.domain.openboard.dto.PostResponseDto;
 import com.domain.openboard.service.PostService;
@@ -42,5 +43,13 @@ public class PostController {
     public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long id){ // URL에서 값을 가져옴
         Post post = postService.findById(id);
         return ResponseEntity.ok().body(new PostResponseDto(post));
+    }
+
+    // 게시글 삭제 API
+    @DeleteMapping("/posts/{id}")
+    public ResponseEntity<Void> deletePostById(@PathVariable Long id, @RequestBody PostPasswordDto dto){
+        postService.delete(id,dto.getPassword());
+        return ResponseEntity.ok().build();
+
     }
 }

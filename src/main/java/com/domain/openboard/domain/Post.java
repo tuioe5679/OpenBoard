@@ -1,5 +1,6 @@
 package com.domain.openboard.domain;
 
+import com.domain.openboard.dto.PostUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -53,5 +54,10 @@ public class Post {
         this.name = name;
         this.likeCount = 0; // 기본 좋아요 개수는 0개
         this.password = password;
+    }
+
+    public void update(String title,String content){
+        this.title = title;
+        this.content = content;
     }
 }

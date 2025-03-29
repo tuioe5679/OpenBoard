@@ -1,10 +1,7 @@
 package com.domain.openboard.controller;
 
 import com.domain.openboard.domain.Post;
-import com.domain.openboard.dto.PostListResponseDto;
-import com.domain.openboard.dto.PostPasswordDto;
-import com.domain.openboard.dto.PostRequestDto;
-import com.domain.openboard.dto.PostResponseDto;
+import com.domain.openboard.dto.*;
 import com.domain.openboard.service.PostService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -50,6 +47,12 @@ public class PostController {
     public ResponseEntity<Void> deletePostById(@PathVariable Long id, @RequestBody PostPasswordDto dto){
         postService.delete(id,dto.getPassword());
         return ResponseEntity.ok().build();
+    }
 
+    // 게시글 수정 API
+    @PutMapping("/posts/{id}")
+    public ResponseEntity<PostResponseDto> updatePostById(@PathVariable Long id, @RequestBody PostUpdateRequestDto dto){
+        Post post = postService.update(id,dto,dto.getPassword());
+        return ResponseEntity.ok().body(new PostResponseDto(post));
     }
 }

@@ -1,5 +1,6 @@
 package com.domain.openboard.dto;
 
+import com.domain.openboard.domain.Post;
 import lombok.Getter;
 
 @Getter
@@ -9,9 +10,9 @@ public class PostListResponseDto {
     private final String content;
     private final String name;
 
-    public PostListResponseDto(String title, String content, String name) {
-        this.title = title;
-        this.content = content;
-        this.name = name;
+    public PostListResponseDto(Post post) {
+        this.title = post.getTitle();
+        this.content = post.getContent();
+        this.name = post.getName();
     }
 }

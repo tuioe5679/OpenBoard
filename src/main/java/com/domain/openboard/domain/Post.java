@@ -34,6 +34,9 @@ public class Post {
     @Column(name = "like_count",nullable = false)
     private int likeCount;
 
+    @Column(name = "password",nullable = false)
+    private String password;
+
     @CreatedDate // 엔티티가 처음 저장될 때의 시간 자동 기록
     @Column(name = "create_at",updatable = false)
     private LocalDateTime create_at;
@@ -44,10 +47,11 @@ public class Post {
 
     // 빌더 패턴 적용
     @Builder
-    public Post(String title, String content, String name) {
+    public Post(String title, String content, String name,String password) {
         this.title = title;
         this.content = content;
         this.name = name;
         this.likeCount = 0; // 기본 좋아요 개수는 0개
+        this.password = password;
     }
 }

@@ -49,11 +49,11 @@ public class PostService {
     }
 
     // 게시글 수정
-    public Post update(Long id, PostUpdateRequestDto dto, String inputPassword){
+    public Post update(Long id, PostUpdateRequestDto dto){
         Post post = postRepository.findById(id)
                 .orElseThrow(() -> new RuntimeException("Post not found" + id));
 
-        if(!passwordEncoder.matches(inputPassword,post.getPassword())){
+        if(!passwordEncoder.matches(dto.getPassword(),post.getPassword())){
             throw new RuntimeException("비밀번호가 일치하지 않습니다");
         }
         post.update(dto.getTitle(),dto.getContent());

@@ -52,7 +52,7 @@ public class PostController {
     // 게시글 수정 API
     @PutMapping("/posts/{id}")
     public ResponseEntity<PostResponseDto> updatePostById(@PathVariable Long id, @RequestBody PostUpdateRequestDto dto){
-        Post post = postService.update(id,dto,dto.getPassword());
+        Post post = postService.update(id,dto);
         return ResponseEntity.ok().body(new PostResponseDto(post));
     }
 }

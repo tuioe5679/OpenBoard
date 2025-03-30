@@ -18,10 +18,10 @@ public class PostController {
 
     // 게시글 작성 API
     @PostMapping("/posts")
-    public ResponseEntity<Post> addPost(@RequestBody PostRequestDto dto){
+    public ResponseEntity<PostResponseDto> addPost(@RequestBody PostRequestDto dto){
         Post post = postService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED)
-                .body(post);
+                .body(new PostResponseDto(post));
     }
 
     // 게시글 목록 조회 API

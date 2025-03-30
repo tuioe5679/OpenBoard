@@ -1,4 +1,4 @@
-package com.domain.openboard.exception;
+package com.domain.openboard.error;
 
 import org.springframework.context.support.DefaultMessageSourceResolvable;
 import org.springframework.http.HttpStatus;

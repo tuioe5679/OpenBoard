@@ -1,4 +1,4 @@
-package com.domain.openboard.exception;
+package com.domain.openboard.error;
 
 import lombok.AllArgsConstructor;
 import lombok.Getter;

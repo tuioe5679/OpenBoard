@@ -23,7 +23,7 @@ public class PostRequestDto {
     private String name;
 
     @NotBlank(message = "비밀번호는 필수입니다.")
-    @Size(min = 6,max = 20,message = "비밀번호는 4자 이상 20자 이하로 작성해주세요.")
+    @Size(min = 6,max = 20,message = "비밀번호는 6자 이상 20자 이하로 작성해주세요.")
     private String password;
 
     public Post toEntity(String hashedPassword) { // 생성자를 통해 객체 생성

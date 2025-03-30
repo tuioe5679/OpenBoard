@@ -28,13 +28,13 @@ public class Post {
     @Column(name = "content",nullable = false,columnDefinition = "MEDIUMTEXT")
     private String content;
 
-    @Column(name = "name" ,nullable = false)
+    @Column(name = "name" ,nullable = false,length = 20)
     private String name;
 
     @Column(name = "like_count",nullable = false)
     private int likeCount;
 
-    @Column(name = "password",nullable = false)
+    @Column(name = "password",nullable = false,length = 60) // 암호화된 비밀번호 고려
     private String password;
 
     @CreatedDate // 엔티티가 처음 저장될 때의 시간 자동 기록

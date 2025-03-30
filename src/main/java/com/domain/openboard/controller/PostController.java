@@ -3,6 +3,7 @@ package com.domain.openboard.controller;
 import com.domain.openboard.domain.Post;
 import com.domain.openboard.dto.*;
 import com.domain.openboard.service.PostService;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -18,7 +19,7 @@ public class PostController {
 
     // 게시글 작성 API
     @PostMapping("/posts")
-    public ResponseEntity<PostResponseDto> addPost(@RequestBody PostRequestDto dto){
+    public ResponseEntity<PostResponseDto> addPost(@RequestBody @Valid PostRequestDto dto){
         Post post = postService.save(dto);
         return ResponseEntity.status(HttpStatus.CREATED)
                 .body(new PostResponseDto(post));

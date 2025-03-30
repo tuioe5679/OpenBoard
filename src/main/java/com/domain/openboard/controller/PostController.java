@@ -27,7 +27,7 @@ public class PostController {
 
     // 게시글 목록 조회 API
     @GetMapping("/posts")
-    public ResponseEntity<List<PostListResponseDto>> getAllPosts() {
+    public ResponseEntity<List<PostListResponseDto>> findAllPosts() {
         List<PostListResponseDto> postListDto = postService.findAll()
                 .stream()                               // 컬렉션(List)를 Stream 객체로 변환
                 .map(PostListResponseDto::new)          // 각 Post 객체를 PostListResponseDto로 변환
@@ -38,21 +38,21 @@ public class PostController {
 
     // 게시글 단건 조회 API
     @GetMapping("/posts/{id}")
-    public ResponseEntity<PostResponseDto> getPostById(@PathVariable Long id){ // URL에서 값을 가져옴
+    public ResponseEntity<PostResponseDto> findPost(@PathVariable Long id){ // URL에서 값을 가져옴
         Post post = postService.findById(id);
         return ResponseEntity.ok().body(new PostResponseDto(post));
     }
 
     // 게시글 삭제 API
     @DeleteMapping("/posts/{id}")
-    public ResponseEntity<Void> deletePostById(@PathVariable Long id, @RequestBody PostPasswordDto dto){
+    public ResponseEntity<Void> deletePost(@PathVariable Long id, @RequestBody PostPasswordDto dto){
         postService.delete(id,dto.getPassword());
         return ResponseEntity.ok().build();
     }
 
     // 게시글 수정 API
     @PutMapping("/posts/{id}")
-    public ResponseEntity<PostResponseDto> updatePostById(@PathVariable Long id, @RequestBody PostUpdateRequestDto dto){
+    public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long id, @RequestBody PostUpdateRequestDto dto){
         Post post = postService.update(id,dto);
         return ResponseEntity.ok().body(new PostResponseDto(post));
     }

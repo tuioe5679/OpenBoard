@@ -1,9 +1,9 @@
 package com.domain.openboard.service;
 
 import com.domain.openboard.domain.Post;
-import com.domain.openboard.dto.PostPasswordDto;
 import com.domain.openboard.dto.PostRequestDto;
 import com.domain.openboard.dto.PostUpdateRequestDto;
+import com.domain.openboard.error.exception.PostNotFoundException;
 import com.domain.openboard.repository.PostRepository;
 import jakarta.transaction.Transactional;
 import lombok.RequiredArgsConstructor;
@@ -32,14 +32,12 @@ public class PostService {
 
     // 게시글 단건 조회
     public Post findById(Long id) {
-        return postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Post not found" + id)); // 엔티티를 조회하고 없으면 예외 발생
+        return postRepository.findById(id).orElseThrow(PostNotFoundException::new);
     }
 
     // 게시글 삭제
     public void delete(Long id,String inputPassword){
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Post not found" + id));
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
 
         // 입력 받은 password와 게시글에 저장된 password를 비교
         if(!passwordEncoder.matches(inputPassword,post.getPassword())){
@@ -50,8 +48,7 @@ public class PostService {
 
     // 게시글 수정
     public Post update(Long id, PostUpdateRequestDto dto){
-        Post post = postRepository.findById(id)
-                .orElseThrow(() -> new RuntimeException("Post not found" + id));
+        Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
 
         if(!passwordEncoder.matches(dto.getPassword(),post.getPassword())){
             throw new RuntimeException("비밀번호가 일치하지 않습니다");

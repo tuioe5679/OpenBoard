@@ -3,6 +3,7 @@ package com.domain.openboard.service;
 import com.domain.openboard.domain.Post;
 import com.domain.openboard.dto.PostRequestDto;
 import com.domain.openboard.dto.PostUpdateRequestDto;
+import com.domain.openboard.error.exception.PasswordMismatchException;
 import com.domain.openboard.error.exception.PostNotFoundException;
 import com.domain.openboard.repository.PostRepository;
 import jakarta.transaction.Transactional;
@@ -41,7 +42,7 @@ public class PostService {
 
         // 입력 받은 password와 게시글에 저장된 password를 비교
         if(!passwordEncoder.matches(inputPassword,post.getPassword())){
-            throw new RuntimeException("비밀번호가 일치하지 않습니다");
+            throw new PasswordMismatchException();
         }
         postRepository.delete(post);
     }
@@ -51,7 +52,7 @@ public class PostService {
         Post post = postRepository.findById(id).orElseThrow(PostNotFoundException::new);
 
         if(!passwordEncoder.matches(dto.getPassword(),post.getPassword())){
-            throw new RuntimeException("비밀번호가 일치하지 않습니다");
+            throw new PasswordMismatchException();
         }
         post.update(dto.getTitle(),dto.getContent());
         return post;

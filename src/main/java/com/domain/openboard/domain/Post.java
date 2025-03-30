@@ -1,6 +1,5 @@
 package com.domain.openboard.domain;
 
-import com.domain.openboard.dto.PostUpdateRequestDto;
 import jakarta.persistence.*;
 import lombok.AccessLevel;
 import lombok.Builder;
@@ -26,7 +25,7 @@ public class Post {
     private String title;
 
     @Lob // Large Object 긴 문자열에 사용
-    @Column(name = "content",nullable = false)
+    @Column(name = "content",nullable = false,columnDefinition = "MEDIUMTEXT")
     private String content;
 
     @Column(name = "name" ,nullable = false)

@@ -312,7 +312,7 @@ class PostControllerTest {
 
     @DisplayName("addPost: 작성자가 20자가 넘으면 VALIDATION_ERROR 발생")
     @Test
-    public void addPostBlankNameValidationError() throws Exception {
+    public void addPostOverNameValidationError() throws Exception {
         // Given (테스트 준비)
 
         // 게시글 추가에 필요한 요청 객체를 만들기

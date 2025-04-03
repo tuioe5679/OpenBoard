@@ -17,6 +17,7 @@ import org.springframework.http.MediaType;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.ResultActions;
+import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import org.springframework.test.web.servlet.setup.MockMvcBuilders;
 import org.springframework.web.context.WebApplicationContext;
 import java.util.List;
@@ -309,7 +310,7 @@ class PostControllerTest {
                 .andExpect(jsonPath("$.message").value("내용은 필수입니다."));
     }
 
-    @DisplayName("addPost: 내용이 비어있으면 VALIDATION_ERROR 발생")
+    @DisplayName("addPost: 작성자가 20자가 넘으면 VALIDATION_ERROR 발생")
     @Test
     public void addPostBlankNameValidationError() throws Exception {
         // Given (테스트 준비)

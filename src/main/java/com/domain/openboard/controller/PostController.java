@@ -3,6 +3,10 @@ package com.domain.openboard.controller;
 import com.domain.openboard.domain.Post;
 import com.domain.openboard.dto.*;
 import com.domain.openboard.service.PostService;
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.Parameter;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -18,6 +22,8 @@ public class PostController {
     private final PostService postService;
 
     // 게시글 작성 API
+    @Operation(summary = "게시글 작성", description = "게시글을 작성합니다")
+    @ApiResponse(responseCode = "201",description = "등록 성공")
     @PostMapping("/posts")
     public ResponseEntity<PostResponseDto> addPost(@RequestBody @Valid PostRequestDto dto){
         Post post = postService.save(dto);
@@ -26,6 +32,8 @@ public class PostController {
     }
 
     // 게시글 목록 조회 API
+    @Operation(summary = "게시글 목록 조회",description = "게시글 전체 목록을 조회합니다")
+    @ApiResponse(responseCode = "200",description = "조회 성공")
     @GetMapping("/posts")
     public ResponseEntity<List<PostListResponseDto>> findAllPosts() {
         List<PostListResponseDto> postListDto = postService.findAll()
@@ -37,22 +45,37 @@ public class PostController {
     }
 
     // 게시글 단건 조회 API
+    @Operation(summary = "게시글 조회",description = "게시글 id로 단건 조회합니다")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "조회 성공"),
+            @ApiResponse(responseCode = "404",description = "해당 게시글을 찾을 수 없음")
+    })
     @GetMapping("/posts/{id}")
-    public ResponseEntity<PostResponseDto> findPost(@PathVariable Long id){ // URL에서 값을 가져옴
+    public ResponseEntity<PostResponseDto> findPost(@Parameter(description = "조회할 게시글 ID",example = "1",required = true) @PathVariable Long id){ // URL에서 값을 가져옴
         Post post = postService.findById(id);
         return ResponseEntity.ok().body(new PostResponseDto(post));
     }
 
     // 게시글 삭제 API
+    @Operation(summary = "게시글 삭제",description = "게시글을 삭제합니다 작성한 게시글의 비밀번호,글 번호를 받습니다")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "삭제 성공"),
+            @ApiResponse(responseCode = "404",description = "해당 게시글을 찾을 수 없음")
+    })
     @DeleteMapping("/posts/{id}")
-    public ResponseEntity<Void> deletePost(@PathVariable Long id, @RequestBody PostPasswordDto dto){
+    public ResponseEntity<Void> deletePost(@Parameter(description = "삭제할 게시글 ID",example = "1",required = true)@PathVariable Long id, @RequestBody PostPasswordDto dto){
         postService.delete(id,dto.getPassword());
         return ResponseEntity.ok().build();
     }
 
     // 게시글 수정 API
+    @Operation(summary = "게시글 수정",description = "게시글을 수정합니다 작성한 게시글의 비밀번호,글 번호를 받습니다")
+    @ApiResponses({
+            @ApiResponse(responseCode = "200",description = "수정 성공"),
+            @ApiResponse(responseCode = "404",description = "해당 게시글을 찾을 수 없음")
+    })
     @PutMapping("/posts/{id}")
-    public ResponseEntity<PostResponseDto> updatePost(@PathVariable Long id, @RequestBody PostUpdateRequestDto dto){
+    public ResponseEntity<PostResponseDto> updatePost(@Parameter(description = "수정할 게시글 ID",example = "1",required = true)@PathVariable Long id, @RequestBody PostUpdateRequestDto dto){
         Post post = postService.update(id,dto);
         return ResponseEntity.ok().body(new PostResponseDto(post));
     }

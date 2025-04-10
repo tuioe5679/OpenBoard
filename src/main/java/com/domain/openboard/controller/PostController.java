@@ -7,6 +7,8 @@ import io.swagger.v3.oas.annotations.Operation;
 import io.swagger.v3.oas.annotations.Parameter;
 import io.swagger.v3.oas.annotations.responses.ApiResponse;
 import io.swagger.v3.oas.annotations.responses.ApiResponses;
+import io.swagger.v3.oas.annotations.security.SecurityRequirement;
+import io.swagger.v3.oas.annotations.tags.Tag;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.HttpStatus;
@@ -14,6 +16,7 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import java.util.List;
 
+@Tag(name = "Post API",description = "작성글 관련 기능 API")
 @RequiredArgsConstructor
 @RequestMapping("/api") // 전체 기본 경로
 @RestController // HTTP Response Body에 객체 데이터를 JSON 형식으로 변환
@@ -22,6 +25,7 @@ public class PostController {
     private final PostService postService;
 
     // 게시글 작성 API
+    @SecurityRequirement(name = "bearerAuth")
     @Operation(summary = "게시글 작성", description = "게시글을 작성합니다")
     @ApiResponse(responseCode = "201",description = "등록 성공")
     @PostMapping("/posts")

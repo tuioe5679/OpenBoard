@@ -21,11 +21,8 @@ jobs:
     - name: Grant execute permission for Gradle wrapper # ./gradlew 실행 권한 부여 
       run: chmod +x ./gradlew
 
-    - name: Build without running tests # 테스트 환경 오류로 테스트는 비활성화
-      run: ./gradlew build -x test --no-daemon
-
-    - name: Build JAR
-      run: ./gradlew clean build  # Gradle을 이용해 Spring Boot 애플리케이션 빌드 (JAR 생성)
+    - name: Build JAR without tests # 빌드 파일 삭제후 새로운 빌드 (테스트 생략)
+      run: ./gradlew clean build -x test --no-daemon
 
     - name: Log in to DockerHub
       uses: docker/login-action@v2  # DockerHub 로그인

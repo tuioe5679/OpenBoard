@@ -52,8 +52,5 @@ jobs:
         # 배포 스크립트 실행 권한 부여
         # 배포 스크립트 실행 → Docker pull + run
         script: |
-          export SPRING_DATASOURCE_URL="${{ secrets.SPRING_DATASOURCE_URL }}"
-          export SPRING_DATASOURCE_USERNAME="${{ secrets.SPRING_DATASOURCE_USERNAME }}"
-          export SPRING_DATASOURCE_PASSWORD="${{ secrets.SPRING_DATASOURCE_PASSWORD }}"
           chmod +x ~/deploy.sh     
           ~/deploy.sh              

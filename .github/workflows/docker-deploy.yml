@@ -18,6 +18,9 @@ jobs:
         java-version: '17'  # Java 17 사용
         distribution: 'temurin'
 
+    - name: Grant execute permission for Gradle wrapper # ./gradlew 실행 권한 부여 
+      run: chmod +x ./gradlew
+
     - name: Build JAR
       run: ./gradlew clean build  # Gradle을 이용해 Spring Boot 애플리케이션 빌드 (JAR 생성)
 

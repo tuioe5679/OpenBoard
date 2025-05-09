@@ -1,0 +1,52 @@
+name: Docker CI/CD  # 워크플로우 이름 (GitHub Actions 탭에서 표시됨)
+
+on:
+  push:
+    branches: [ "master" ]  # main 브랜치에 push될 때 자동 실행됨
+
+jobs:
+  deploy:
+    runs-on: ubuntu-latest  # GitHub이 제공하는 우분투 환경에서 실행
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v3  # GitHub 저장소 코드를 현재 워크플로우로 가져옴
+
+    - name: Set up JDK
+      uses: actions/setup-java@v3  # Java 개발 환경 설정
+      with:
+        java-version: '17'  # Java 17 사용
+
+    - name: Build JAR
+      run: ./gradlew clean build  # Gradle을 이용해 Spring Boot 애플리케이션 빌드 (JAR 생성)
+
+    - name: Log in to DockerHub
+      uses: docker/login-action@v2  # DockerHub 로그인
+      with:
+        username: ${{ secrets.DOCKERHUB_USERNAME }}  # GitHub Secrets에 저장된 Docker ID
+        password: ${{ secrets.DOCKERHUB_TOKEN }}     # GitHub Secrets에 저장된 Docker Access Token
+
+    - name: Build and Push Docker Image
+        # Docker 이미지 빌드
+        # DockerHub에 이미지 푸시
+      run: |
+        docker build -t ${{ secrets.DOCKERHUB_USERNAME }}/spring-app .  
+        docker push ${{ secrets.DOCKERHUB_USERNAME }}/spring-app        
+
+    - name: Deploy to EC2
+      uses: appleboy/ssh-action@v1.0.0  # EC2에 SSH 접속 후 명령 실행
+      with:
+        host: ${{ secrets.EC2_HOST }}  # EC2 퍼블릭 IP
+        username: ubuntu               # EC2 사용자명 (Amazon Linux는 ec2-user, Ubuntu는 ubuntu)
+        key: ${{ secrets.EC2_KEY }}    # EC2 접속용 개인 키 (PEM 파일 내용 전체)
+        
+        # GitHub Secrets에서 환경변수 주입 (DB 연결 정보 등)
+        envs: SPRING_DATASOURCE_URL,SPRING_DATASOURCE_USERNAME,SPRING_DATASOURCE_PASSWORD
+
+        # EC2 접속 후 실행할 스크립트
+        
+        # 배포 스크립트 실행 권한 부여
+        # 배포 스크립트 실행 → Docker pull + run
+        script: |
+          chmod +x ~/deploy.sh     
+          ~/deploy.sh              

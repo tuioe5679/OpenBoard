@@ -16,6 +16,7 @@ jobs:
       uses: actions/setup-java@v3  # Java 개발 환경 설정
       with:
         java-version: '17'  # Java 17 사용
+        distribution: 'temurin'
 
     - name: Build JAR
       run: ./gradlew clean build  # Gradle을 이용해 Spring Boot 애플리케이션 빌드 (JAR 생성)
